@@ -14,6 +14,7 @@
     "@craftjs/layers": "^0.2.5",
     "@craftjs/utils": "^0.2.4",
     "antd": "^5.20.2",
+    "classnames": "^2.5.1",
     "debounce": "^2.1.0",
     "re-resizable": "^6.9.17",
     "react": "^18.3.1",

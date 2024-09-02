@@ -5,21 +5,38 @@ import { TextSettings } from "./TextSettings";
 
 interface TextProps {
   text: string;
-  fontSize?: string;
-  color?: string;
-  fontWeight?: string;
-  fontFamily?: string;
-  textAlign?: string;
-  lineHeight?: string;
-  letterSpacing?: string;
-  textDecoration?: string;
-  textTransform?: string;
-  textShadow?: string;
+  code?: boolean;
   copyable?: boolean;
+  delete?: boolean;
+  disabled?: boolean;
+  editable?: boolean;
+  ellipsis?: boolean;
+  keyboard?: boolean;
+  mark?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  strong?: boolean;
+  italic?: boolean;
+  type?: "secondary" | "success" | "warning" | "danger";
+  underline?: boolean;
 }
 
-export const Text = ({ text, fontSize, color, copyable }: TextProps) => {
-  const [editable, setEditable] = useState(false);
+export const Text = ({
+  text,
+  code,
+  copyable,
+  delete: deleteStyle,
+  disabled,
+  editable,
+  ellipsis,
+  keyboard,
+  mark,
+  onClick,
+  strong,
+  italic,
+  type,
+  underline,
+}: TextProps) => {
+  const [editableState, setEditableState] = useState(false);
   const {
     connectors: { connect, drag },
     selected,
@@ -31,35 +48,57 @@ export const Text = ({ text, fontSize, color, copyable }: TextProps) => {
 
   useEffect(() => {
     if (!selected) {
-      setEditable(false);
+      setEditableState(false);
     }
   }, [selected]);
 
-  return (
+  const handleEdit = (newText: string) => {
+    setProp((props: any) => (props.text = newText), 1000);
+  };
 
-      <Typography.Text
+  return (
+    <Typography.Text
       ref={(ref) => connect(drag(ref as any))}
-        copyable={copyable}
-        editable={{
-          triggerType: ["text"],
-          editing: editable,
-          onStart: () => setEditable(true),
-          onChange: (newText) =>
-            setProp((props: any) => (props.text = newText), 1000),
-        }}
-        style={{ fontSize, color }}
-      >
-        {text}
-      </Typography.Text>
- 
+      code={code}
+      copyable={copyable}
+      delete={deleteStyle}
+      disabled={disabled}
+      editable={
+        typeof editable === "boolean"
+          ? {
+              editing: editableState,
+              onStart: () => setEditableState(true),
+              onChange: handleEdit,
+            }
+          : editable
+      }
+      ellipsis={ellipsis}
+      keyboard={keyboard}
+      mark={mark}
+      onClick={onClick}
+      strong={strong}
+      italic={italic}
+      type={type}
+      underline={underline}
+    >
+      {text}
+    </Typography.Text>
   );
 };
 
 export const TextDefaultProps = {
-  text: "Hi",
-  fontSize: 20,
-  color: "#000",
+  text: "Texto de exemplo",
+  code: false,
   copyable: false,
+  delete: false,
+  disabled: false,
+  editable: false,
+  ellipsis: false,
+  keyboard: false,
+  mark: false,
+  strong: false,
+  italic: false,
+  underline: false,
 };
 
 Text.craft = {
