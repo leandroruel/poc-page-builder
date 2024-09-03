@@ -9,7 +9,6 @@ interface TextProps {
   copyable?: boolean;
   delete?: boolean;
   disabled?: boolean;
-  editable?: boolean;
   ellipsis?: boolean;
   keyboard?: boolean;
   mark?: boolean;
@@ -26,7 +25,6 @@ export const Text = ({
   copyable,
   delete: deleteStyle,
   disabled,
-  editable,
   ellipsis,
   keyboard,
   mark,
@@ -36,7 +34,7 @@ export const Text = ({
   type,
   underline,
 }: TextProps) => {
-  const [editableState, setEditableState] = useState(false);
+  const [editable, setEditable] = useState(false);
   const {
     connectors: { connect, drag },
     selected,
@@ -48,7 +46,7 @@ export const Text = ({
 
   useEffect(() => {
     if (!selected) {
-      setEditableState(false);
+      setEditable(false);
     }
   }, [selected]);
 
@@ -63,15 +61,12 @@ export const Text = ({
       copyable={copyable}
       delete={deleteStyle}
       disabled={disabled}
-      editable={
-        typeof editable === "boolean"
-          ? {
-              editing: editableState,
-              onStart: () => setEditableState(true),
-              onChange: handleEdit,
-            }
-          : editable
-      }
+      editable={{
+        editing: editable,
+        onStart: () => setEditable(true),
+        onChange: (newText) => handleEdit(newText),
+        triggerType: ["text", "icon"],
+      }}
       ellipsis={ellipsis}
       keyboard={keyboard}
       mark={mark}

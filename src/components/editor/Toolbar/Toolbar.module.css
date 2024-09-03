@@ -1,0 +1,32 @@
+.toolbarComponentBody {
+  width: 250px;
+  height: 100%;
+  background-color: #434343;
+}
+
+.toolbarTitle {
+  width: 100%;
+  color: white;
+  border-bottom: 1px solid #595959;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.toolbarMenu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50px;
+  height: 100%;
+  border-right: 1px solid #595959;
+  padding: 10px 0;
+}
+
+.toolbarComponent {
+  height: calc(100vh - 50px);
+  background-color: #434343;
+  display: flex;
+  align-items: center;
+  min-width: 50px;
+  max-width: 300px;
+}

@@ -79,7 +79,7 @@ export const RenderNode = ({ render }: { render: React.ReactNode }) => {
               top: getPos(dom).top,
             }}
           >
-            <h2 className="component-name">{name}</h2>
+            <p className="component-name">{name}</p>
             {moveable && (
               <a className="btn move-btn" ref={drag as any}>
                 <DragOutlined />
