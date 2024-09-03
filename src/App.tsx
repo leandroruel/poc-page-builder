@@ -1,15 +1,13 @@
 import { Editor, Element } from "@craftjs/core";
 import "./App.css";
-import { Text } from "./components/user/Text";
-
-import Row from "./components/user/Row";
+import { Text, Row, Col } from "./components/user";
 import { Viewport } from "./components/editor/Viewport";
 import { RenderNode } from "./components/editor/RenderNode";
 
 function App() {
   return (
     <>
-      <Editor resolver={{ Text, Row, Element }} onRender={RenderNode}>
+      <Editor resolver={{ Text, Row, Col, Element }} onRender={RenderNode}>
         <Viewport />
       </Editor>
     </>
