@@ -1,13 +1,17 @@
-import { useNode, useEditor } from '@craftjs/core';
-import { ROOT_NODE } from '@craftjs/utils';
-import { useEffect, useRef, useCallback } from 'react';
-import ReactDOM from 'react-dom';
-import { ArrowUpOutlined, DeleteOutlined, DragOutlined } from '@ant-design/icons';
+import { useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
+import { useNode, useEditor } from "@craftjs/core";
+import { ROOT_NODE } from "@craftjs/utils";
+import {
+  ArrowUpOutlined,
+  DeleteOutlined,
+  DragOutlined,
+} from "@ant-design/icons";
 
 export const RenderNode = ({ render }: { render: React.ReactNode }) => {
   const { id } = useNode();
   const { actions, query, isActive } = useEditor((_, query) => ({
-    isActive: query.getEvent('selected').contains(id),
+    isActive: query.getEvent("selected").contains(id),
   }));
 
   const {
@@ -27,19 +31,18 @@ export const RenderNode = ({ render }: { render: React.ReactNode }) => {
     parent: node.data.parent,
   }));
 
-  const currentRef = useRef();
+  const currentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (dom) {
-      if (isActive || isHover) dom.classList.add('component-selected');
-      else dom.classList.remove('component-selected');
+      if (isActive || isHover) dom.classList.add("component-selected");
+      else dom.classList.remove("component-selected");
     }
   }, [dom, isActive, isHover]);
 
-  const getPos = useCallback((dom) => {
-    const { top, left, bottom } = dom
-      ? dom.getBoundingClientRect()
-      : { top: 0, left: 0, bottom: 0 };
+  const getPos = useCallback((dom: HTMLElement | null) => {
+    if (!dom) return { top: "0px", left: "0px" };
+    const { top, left, bottom } = dom.getBoundingClientRect();
     return {
       top: `${top > 0 ? top : bottom}px`,
       left: `${left}px`,
@@ -56,17 +59,18 @@ export const RenderNode = ({ render }: { render: React.ReactNode }) => {
   }, [dom, getPos]);
 
   useEffect(() => {
-    const renderer = document.querySelector('.craftjs-renderer');
+    const renderer = document.querySelector(".craftjs-renderer");
     if (renderer) {
-      renderer.addEventListener('scroll', scroll);
-      return () => renderer.removeEventListener('scroll', scroll);
+      renderer.addEventListener("scroll", scroll);
+      return () => renderer.removeEventListener("scroll", scroll);
     }
   }, [scroll]);
 
   return (
     <>
       {(isHover || isActive) &&
-        ReactDOM.createPortal(
+        // https://react.dev/reference/react-dom/createPortal
+        createPortal(
           <div
             ref={currentRef}
             className="indicator-div"
@@ -77,7 +81,7 @@ export const RenderNode = ({ render }: { render: React.ReactNode }) => {
           >
             <h2 className="component-name">{name}</h2>
             {moveable && (
-              <a className="btn move-btn" ref={drag}>
+              <a className="btn move-btn" ref={drag as any}>
                 <DragOutlined />
               </a>
             )}
@@ -101,7 +105,7 @@ export const RenderNode = ({ render }: { render: React.ReactNode }) => {
               </a>
             )}
           </div>,
-          document.querySelector('.page-container')
+          document.querySelector(".page-container") as Element
         )}
       {render}
     </>

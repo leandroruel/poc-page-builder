@@ -58,7 +58,8 @@ export const Viewport = () => {
             },
           ])}
           ref={(ref) =>
-            ref && connectors.select(connectors.hover(ref, nodeId ?? ""), nodeId ?? "")
+            ref &&
+            connectors.select(connectors.hover(ref, nodeId ?? ""), nodeId ?? "")
           }
         >
           <Flex align="center" justify="space-between">
