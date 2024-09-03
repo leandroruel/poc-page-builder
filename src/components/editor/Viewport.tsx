@@ -4,6 +4,7 @@ import Toolbar from "./Toolbar";
 import { Frame, Element, useEditor } from "@craftjs/core";
 import { useEffect, useState } from "react";
 import cx from "classnames";
+import { PropertySidebar } from "./PropertySidebar";
 
 const { Content } = Layout;
 export const Viewport = () => {
@@ -85,6 +86,7 @@ export const Viewport = () => {
             </div>
           </Flex>
         </Content>
+        <PropertySidebar />
       </Layout>
     </Layout>
   );
