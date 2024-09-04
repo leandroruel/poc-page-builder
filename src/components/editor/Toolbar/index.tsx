@@ -88,7 +88,7 @@ const Toolbar = () => {
       <div className={styles.toolbarComponentBody}>
         <div
           ref={(ref) =>
-            ref && connectors.create(ref, <Text text="This is a example" />)
+            ref && connectors.create(ref, <Text text="This is a example" italic={false} />)
           }
           style={{
             width: "250px",

@@ -1,6 +1,7 @@
 .container {
   background-color: #434343;
   width: 200px;
+  z-index: 1000;
 }
 
 .title {

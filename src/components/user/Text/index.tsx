@@ -2,6 +2,9 @@ import { useNode } from "@craftjs/core";
 import { Typography } from "antd";
 import { useEffect, useState } from "react";
 import { TextSettings } from "./TextSettings";
+import type { EllipsisConfig } from "antd/es/typography/Base";
+
+const { Text: AntdText } = Typography;
 
 interface TextProps {
   text: string;
@@ -9,7 +12,7 @@ interface TextProps {
   copyable?: boolean;
   delete?: boolean;
   disabled?: boolean;
-  ellipsis?: boolean;
+  ellipsis?: EllipsisConfig;
   keyboard?: boolean;
   mark?: boolean;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
@@ -17,24 +20,26 @@ interface TextProps {
   italic?: boolean;
   type?: "secondary" | "success" | "warning" | "danger";
   underline?: boolean;
+  fontSize?: number;
+  textAlign?: "left" | "center" | "right" | "justify";
 }
 
-export const Text = ({
-  text,
-  code,
-  copyable,
-  delete: deleteStyle,
-  disabled,
-  ellipsis,
-  keyboard,
-  mark,
-  onClick,
-  strong,
-  italic,
-  type,
-  underline,
-}: TextProps) => {
-  const [editable, setEditable] = useState(false);
+export const Text = (props: TextProps) => {
+  const {
+    text,
+    code,
+    copyable,
+    delete: deleteStyle,
+    disabled,
+    italic,
+    type,
+    underline,
+    fontSize,
+    textAlign,
+    strong,
+  } = props;
+
+  const [editable, setEditable] = useState(true);
   const {
     connectors: { connect, drag },
     selected,
@@ -48,14 +53,16 @@ export const Text = ({
     if (!selected) {
       setEditable(false);
     }
-  }, [selected]);
+  }, [selected, italic]);
 
   const handleEdit = (newText: string) => {
     setProp((props: any) => (props.text = newText), 1000);
   };
 
   return (
-    <Typography.Text
+    <AntdText
+      // workaround to re-render the component when the props change
+      key={JSON.stringify(props)}
       ref={(ref) => connect(drag(ref as any))}
       code={code}
       copyable={copyable}
@@ -65,19 +72,21 @@ export const Text = ({
         editing: editable,
         onStart: () => setEditable(true),
         onChange: (newText) => handleEdit(newText),
-        triggerType: ["text", "icon"],
+        triggerType: ["icon"],
+        text: text,
       }}
-      ellipsis={ellipsis}
-      keyboard={keyboard}
-      mark={mark}
-      onClick={onClick}
-      strong={strong}
-      italic={italic}
+      italic={Boolean(italic)}
       type={type}
       underline={underline}
+      {...props}
+      style={{
+        fontSize: `${fontSize}px`,
+        fontWeight: strong ? "bold" : "normal",
+        textAlign: textAlign ? textAlign : "left",
+      }}
     >
       {text}
-    </Typography.Text>
+    </AntdText>
   );
 };
 
@@ -87,13 +96,14 @@ export const TextDefaultProps = {
   copyable: false,
   delete: false,
   disabled: false,
-  editable: false,
   ellipsis: false,
   keyboard: false,
   mark: false,
   strong: false,
   italic: false,
   underline: false,
+  fontSize: 14,
+  textAlign: "left",
 };
 
 Text.craft = {

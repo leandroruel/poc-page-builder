@@ -2,6 +2,8 @@
   width: 250px;
   height: 100%;
   background-color: #434343;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 .toolbarTitle {
@@ -29,4 +31,5 @@
   align-items: center;
   min-width: 50px;
   max-width: 300px;
+  z-index: 1000;
 }

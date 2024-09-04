@@ -5,6 +5,7 @@ import { Frame, Element, useEditor } from "@craftjs/core";
 import { useEffect, useState } from "react";
 import cx from "classnames";
 import { PropertySidebar } from "./PropertySidebar";
+import Canvas from "./Canvas";
 
 const { Content } = Layout;
 export const Viewport = () => {
@@ -47,13 +48,16 @@ export const Viewport = () => {
     <Layout>
       <Header />
       <Layout
-        style={{ display: "flex", flexDirection: "row" }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
         className="page-container"
       >
         <Toolbar />
         <Content
           className={cx([
-            "craftjs-renderer flex-1 h-full w-full transition pb-8 overflow-auto",
+            "craftjs-renderer",
             {
               "bg-renderer-gray": enabled,
             },
@@ -63,27 +67,18 @@ export const Viewport = () => {
             connectors.select(connectors.hover(ref, nodeId ?? ""), nodeId ?? "")
           }
         >
-          <Flex align="center" justify="space-between">
-            <div
-              style={{
-                width: "100%",
-                height: "calc(100vh - 50px)",
-                padding: "10px",
-                gap: "10px",
-              }}
-            >
-              <Frame>
-                <Element
-                  is="div"
-                  canvas
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                />
-              </Frame>
-            </div>
+          <Flex
+            align="center"
+            justify="space-between"
+            style={{
+              width: "100%",
+              height: "calc(100vh - 50px)",
+              padding: "10px",
+            }}
+          >
+            <Frame>
+              <Element is={Canvas} canvas custom={{ displayName: 'App' }} />
+            </Frame>
           </Flex>
         </Content>
         <PropertySidebar />
