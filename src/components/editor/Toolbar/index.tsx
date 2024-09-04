@@ -9,10 +9,10 @@ import {
   HomeOutlined,
   PlusCircleOutlined,
   BarsOutlined,
+  TableOutlined,
 } from "@ant-design/icons";
-import { Text } from "../../user/Text";
 import styles from "./Toolbar.module.css";
-import { Row } from "../../user";
+import { DataTable, Row, Text } from "../../user";
 
 const Toolbar = () => {
   const [visible, setVisible] = useState(false);
@@ -86,6 +86,7 @@ const Toolbar = () => {
         </Space>
       </div>
       <div className={styles.toolbarComponentBody}>
+        <div className={styles.toolbarTitle}>Adicionar</div>
         <div
           ref={(ref) =>
             ref && connectors.create(ref, <Text text="This is a example" italic={false} />)
@@ -94,7 +95,6 @@ const Toolbar = () => {
             width: "250px",
           }}
         >
-          <div className={styles.toolbarTitle}>Adicionar</div>
           <ComponentItem icon={<FontSizeOutlined />} label="Text" />
         </div>
         <div
@@ -104,6 +104,14 @@ const Toolbar = () => {
           }}
         >
           <ComponentItem icon={<BarsOutlined />} label="Row" />
+        </div>
+        <div
+          ref={(ref) => ref && connectors.create(ref, <DataTable />)}
+          style={{
+            width: "250px",
+          }}
+        >
+          <ComponentItem icon={<TableOutlined />} label="DataTable" />
         </div>
       </div>
     </aside>

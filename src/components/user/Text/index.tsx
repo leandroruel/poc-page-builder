@@ -22,6 +22,7 @@ interface TextProps {
   underline?: boolean;
   fontSize?: number;
   textAlign?: "left" | "center" | "right" | "justify";
+  style?: React.CSSProperties;
 }
 
 export const Text = (props: TextProps) => {
@@ -34,8 +35,6 @@ export const Text = (props: TextProps) => {
     italic,
     type,
     underline,
-    fontSize,
-    textAlign,
     strong,
   } = props;
 
@@ -78,12 +77,8 @@ export const Text = (props: TextProps) => {
       italic={Boolean(italic)}
       type={type}
       underline={underline}
+      strong={strong}
       {...props}
-      style={{
-        fontSize: `${fontSize}px`,
-        fontWeight: strong ? "bold" : "normal",
-        textAlign: textAlign ? textAlign : "left",
-      }}
     >
       {text}
     </AntdText>
@@ -102,8 +97,6 @@ export const TextDefaultProps = {
   strong: false,
   italic: false,
   underline: false,
-  fontSize: 14,
-  textAlign: "left",
 };
 
 Text.craft = {

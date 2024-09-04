@@ -1,7 +1,11 @@
 import { useNode } from "@craftjs/core";
 import { Form, Radio, Select, Slider, Switch } from "antd";
-import { RadioChangeEvent } from 'antd';
-import { AlignLeftOutlined, AlignCenterOutlined, AlignRightOutlined } from '@ant-design/icons';
+import { RadioChangeEvent } from "antd";
+import {
+  AlignLeftOutlined,
+  AlignCenterOutlined,
+  AlignRightOutlined,
+} from "@ant-design/icons";
 
 export const TextSettings = () => {
   const {
@@ -33,17 +37,6 @@ export const TextSettings = () => {
 
   return (
     <>
-      <Form.Item label="Font size">
-        <Slider
-          value={fontSize || 7}
-          step={7}
-          min={14}
-          max={50}
-          onChange={(value) => {
-            setProp((props: any) => (props.fontSize = value), 1000);
-          }}
-        />
-      </Form.Item>
       <Form.Item label="Italic">
         <Switch checked={italic} size="small" onChange={handleChangeItalic} />
       </Form.Item>
@@ -65,6 +58,7 @@ export const TextSettings = () => {
       </Form.Item>
       <Form.Item label="Code">
         <Switch
+          size="small"
           checked={code}
           onChange={(value) => {
             setProp((props: any) => (props.code = value), 1000);
@@ -73,6 +67,7 @@ export const TextSettings = () => {
       </Form.Item>
       <Form.Item label="Underline">
         <Switch
+          size="small"
           checked={underline}
           onChange={(value) => {
             setProp((props: any) => (props.underline = value), 1000);
@@ -81,6 +76,7 @@ export const TextSettings = () => {
       </Form.Item>
       <Form.Item label="Strong">
         <Switch
+          size="small"
           checked={strong}
           onChange={(value) => {
             setProp((props: any) => (props.strong = value), 1000);
@@ -89,9 +85,15 @@ export const TextSettings = () => {
       </Form.Item>
       <Form.Item label="Alinhamento do texto">
         <Radio.Group onChange={onChangeAlign} defaultValue="left" size="small">
-          <Radio.Button value="left"><AlignLeftOutlined /></Radio.Button>
-          <Radio.Button value="center"><AlignCenterOutlined /></Radio.Button>
-          <Radio.Button value="right"><AlignRightOutlined /></Radio.Button>
+          <Radio.Button value="left">
+            <AlignLeftOutlined />
+          </Radio.Button>
+          <Radio.Button value="center">
+            <AlignCenterOutlined />
+          </Radio.Button>
+          <Radio.Button value="right">
+            <AlignRightOutlined />
+          </Radio.Button>
         </Radio.Group>
       </Form.Item>
     </>
