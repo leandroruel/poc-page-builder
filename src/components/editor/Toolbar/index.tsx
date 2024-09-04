@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Space, Card } from "antd";
+import { Button, Space, Card, Collapse } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useEditor } from "@craftjs/core";
 import {
@@ -13,6 +13,8 @@ import {
 } from "@ant-design/icons";
 import styles from "./Toolbar.module.css";
 import { DataTable, Row, Text } from "../../user";
+
+const { Panel } = Collapse;
 
 const Toolbar = () => {
   const [visible, setVisible] = useState(false);
@@ -87,32 +89,48 @@ const Toolbar = () => {
       </div>
       <div className={styles.toolbarComponentBody}>
         <div className={styles.toolbarTitle}>Adicionar</div>
-        <div
-          ref={(ref) =>
-            ref && connectors.create(ref, <Text text="This is a example" italic={false} />)
-          }
-          style={{
-            width: "250px",
-          }}
+        <Collapse
+          defaultActiveKey={["1"]}
+          expandIconPosition="end"
+          bordered={false}
         >
-          <ComponentItem icon={<FontSizeOutlined />} label="Text" />
-        </div>
-        <div
-          ref={(ref) => ref && connectors.create(ref, <Row />)}
-          style={{
-            width: "250px",
-          }}
-        >
-          <ComponentItem icon={<BarsOutlined />} label="Row" />
-        </div>
-        <div
-          ref={(ref) => ref && connectors.create(ref, <DataTable />)}
-          style={{
-            width: "250px",
-          }}
-        >
-          <ComponentItem icon={<TableOutlined />} label="DataTable" />
-        </div>
+          <Panel header="Básico" key="1" extra={<FontSizeOutlined />}>
+            <div
+              ref={(ref) =>
+                ref &&
+                connectors.create(
+                  ref,
+                  <Text text="This is a example" italic={false} />
+                )
+              }
+              style={{
+                width: "250px",
+              }}
+            >
+              <ComponentItem icon={<FontSizeOutlined />} label="Text" />
+            </div>
+          </Panel>
+          <Panel header="Grid" key="2" extra={<BarsOutlined />}>
+            <div
+              ref={(ref) => ref && connectors.create(ref, <Row />)}
+              style={{
+                width: "250px",
+              }}
+            >
+              <ComponentItem icon={<BarsOutlined />} label="Row" />
+            </div>
+          </Panel>
+          <Panel header="Table" key="3" extra={<TableOutlined />}>
+            <div
+              ref={(ref) => ref && connectors.create(ref, <DataTable />)}
+              style={{
+                width: "250px",
+              }}
+            >
+              <ComponentItem icon={<TableOutlined />} label="DataTable" />
+            </div>
+          </Panel>
+        </Collapse>
       </div>
     </aside>
   );

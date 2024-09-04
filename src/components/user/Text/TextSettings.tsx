@@ -5,6 +5,7 @@ import {
   AlignLeftOutlined,
   AlignCenterOutlined,
   AlignRightOutlined,
+  FontSizeOutlined,
 } from "@ant-design/icons";
 
 const { Panel } = Collapse;
@@ -38,9 +39,19 @@ export const TextSettings = () => {
   };
 
   return (
-    <Collapse>
-      <Panel header="Formatação" key="1">
+    <Collapse defaultActiveKey={["1"]} expandIconPosition="end" bordered={false}>
+      <Panel header="Formatação" key="1" extra={<FontSizeOutlined />}>
         <Space direction="vertical" style={{ width: "100%" }}>
+          <Form.Item label="Tamanho da fonte">
+            <Slider
+              min={10}
+              max={100}
+              defaultValue={fontSize}
+              onChange={(value) => {
+                setProp((props: any) => (props.fontSize = value), 1000);
+              }}
+            />
+          </Form.Item>
           <Switch
             size="small"
             checkedChildren="Itálico"
@@ -74,16 +85,16 @@ export const TextSettings = () => {
           <Form.Item label="Tipo de texto">
             <Select
               defaultValue={"primary"}
-            size="small"
-            value={type}
-            onChange={(value) => {
-              setProp((props: any) => (props.type = value), 1000);
-            }}
-          >
-            <Select.Option value="primary">Primary</Select.Option>
-            <Select.Option value="secondary">Secondary</Select.Option>
-            <Select.Option value="success">Success</Select.Option>
-            <Select.Option value="warning">Warning</Select.Option>
+              size="small"
+              value={type}
+              onChange={(value) => {
+                setProp((props: any) => (props.type = value), 1000);
+              }}
+            >
+              <Select.Option value="primary">Primary</Select.Option>
+              <Select.Option value="secondary">Secondary</Select.Option>
+              <Select.Option value="success">Success</Select.Option>
+              <Select.Option value="warning">Warning</Select.Option>
               <Select.Option value="danger">Danger</Select.Option>
             </Select>
           </Form.Item>
