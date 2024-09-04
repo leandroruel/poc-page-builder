@@ -1,10 +1,12 @@
-import { useEditor } from "@craftjs/core";
-import styles from "./PropertySidebar.module.css";
 import React from "react";
-import { Button } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Layout, Button, Typography, Space, Divider } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
+import { useEditor } from "@craftjs/core";
 
-export const PropertySidebar = () => {
+const { Sider } = Layout;
+const { Title } = Typography;
+
+export default function PropertiesSidebar() {
   const { actions, selected, isEnabled } = useEditor((state, query) => {
     const currentNodeId = query.getEvent("selected").last();
     let selected;
@@ -27,36 +29,34 @@ export const PropertySidebar = () => {
   });
 
   return (
-    <div className={styles.container}>
-      <div className={styles.title}>Propriedades</div>
-      <div className={styles.content}>
-        {isEnabled && selected && (
-          <div className={styles.componentContainer}>
-            <div className={styles.componentHeader}>
-              {selected.isDeletable && (
-                <Button
-                  type="primary"
-                  shape="circle"
-                  onClick={() => {
-                    actions.delete(selected.id);
-                  }}
-                  icon={<DeleteOutlined />}
-                />
-              )}
-            </div>
-            <div className={styles.componentName}>{selected.name}</div>
-            <div>
-              {selected.settings && React.createElement(selected.settings)}
-            </div>
-          </div>
-        )}
-
-        {isEnabled && !selected && (
-          <div className={styles.noComponentSelected}>
-            Selecione um componente para visualizar as propriedades
-          </div>
-        )}
+    <Sider width={300} theme="light" className="properties-sidebar">
+      <div style={{ padding: "16px" }}>
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <Title level={5} style={{ margin: 0 }}>
+            Propriedades
+          </Title>
+          <Divider style={{ margin: "0 0 8px 0" }} />
+          {isEnabled && selected && selected.isDeletable && (
+            <Button
+              type="primary"
+              danger
+              icon={<CloseOutlined />}
+              onClick={() => {
+                actions.delete(selected.id);
+              }}
+              block
+            >
+              Remover componente
+            </Button>
+          )}
+        </Space>
       </div>
-    </div>
+      <div>
+        {isEnabled &&
+          selected &&
+          selected.settings &&
+          React.createElement(selected.settings)}
+      </div>
+    </Sider>
   );
-};
+}

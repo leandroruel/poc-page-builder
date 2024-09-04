@@ -5,7 +5,7 @@ import { useEditor } from "@craftjs/core";
 import { Logo } from "./Logo";
 
 const Header: React.FC = () => {
-  const { actions, query, enabled, canUndo, canRedo } = useEditor(
+  const { actions, query, canUndo, canRedo } = useEditor(
     (state, query) => ({
       enabled: state.options.enabled,
       canUndo: state.options.enabled && query.history.canUndo(),

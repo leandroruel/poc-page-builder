@@ -1,11 +1,12 @@
-import { Layout, Flex } from "antd";
+import { Layout, Flex, ConfigProvider } from "antd";
 import Header from "./Header";
 import Toolbar from "./Toolbar";
 import { Frame, Element, useEditor } from "@craftjs/core";
 import { useEffect, useState } from "react";
 import cx from "classnames";
-import { PropertySidebar } from "./PropertySidebar";
+import PropertiesSidebar from "@/components/editor/PropertySidebar";
 import Canvas from "./Canvas";
+import { defaultTheme, editorTheme } from "./theme";
 
 const { Content } = Layout;
 export const Viewport = () => {
@@ -45,44 +46,51 @@ export const Viewport = () => {
   }, [setOptions, hoveredNodeId]);
 
   return (
-    <Layout>
-      <Header />
-      <Layout
-        style={{
-          display: "flex",
-          flexDirection: "row",
-        }}
-        className="page-container"
-      >
-        <Toolbar />
-        <Content
-          className={cx([
-            "craftjs-renderer",
-            {
-              "bg-renderer-gray": enabled,
-            },
-          ])}
-          ref={(ref) =>
-            ref &&
-            connectors.select(connectors.hover(ref, nodeId ?? ""), nodeId ?? "")
-          }
+    <ConfigProvider theme={editorTheme}>
+      <Layout>
+        <Header />
+        <Layout
+          style={{
+            display: "flex",
+            flexDirection: "row",
+          }}
+          className="page-container"
         >
-          <Flex
-            align="center"
-            justify="space-between"
-            style={{
-              width: "100%",
-              height: "calc(100vh - 50px)",
-              padding: "10px",
-            }}
-          >
-            <Frame>
-              <Element is={Canvas} canvas custom={{ displayName: 'App' }} />
-            </Frame>
-          </Flex>
-        </Content>
-        <PropertySidebar />
+          <Toolbar />
+          <ConfigProvider theme={defaultTheme}>
+            <Content
+              className={cx([
+                "craftjs-renderer",
+                {
+                  "bg-renderer-gray": enabled,
+                },
+              ])}
+              ref={(ref) =>
+                ref &&
+                connectors.select(
+                  connectors.hover(ref, nodeId ?? ""),
+                  nodeId ?? ""
+                )
+              }
+            >
+              <Flex
+                align="center"
+                justify="space-between"
+                style={{
+                  width: "100%",
+                  height: "calc(100vh - 50px)",
+                  padding: "10px",
+                }}
+              >
+                <Frame>
+                  <Element is={Canvas} canvas custom={{ displayName: "App" }} />
+                </Frame>
+              </Flex>
+            </Content>
+          </ConfigProvider>
+          <PropertiesSidebar />
+        </Layout>
       </Layout>
-    </Layout>
+    </ConfigProvider>
   );
 };
