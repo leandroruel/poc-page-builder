@@ -50,7 +50,7 @@ export const DataTableSettings = () => {
   };
 
   return (
-    <Collapse expandIconPosition="end" bordered={false}>
+    <Collapse expandIconPosition="end" bordered={false} defaultActiveKey={["1"]}>
       <Panel header="Básico" extra={<TableOutlined />} key="1">
         <Space direction="vertical" style={{ width: "100%" }}>
           <Input
