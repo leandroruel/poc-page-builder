@@ -37,6 +37,7 @@ export const PageListModal: React.FC<PageListModalProps> = ({
           flexWrap: "wrap",
           gap: "16px",
           justifyContent: "start",
+          height: "100%",
         }}
       >
         {isLoading
@@ -52,9 +53,7 @@ export const PageListModal: React.FC<PageListModalProps> = ({
                       active
                     />
                   }
-                >
-                  <Skeleton active paragraph={{ rows: 1 }} />
-                </Card>
+                ></Card>
               ))
           : pages.map((page: any) => (
               <Suspense

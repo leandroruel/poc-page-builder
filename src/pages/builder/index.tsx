@@ -32,15 +32,15 @@ function Builder() {
       <Editor
         resolver={{ Text, Row, Col, Element, Canvas, DataTable }}
         onRender={RenderNode}
-        enabled={enabled}
+        enabled={false}
       >
         <Viewport />
+        <PageListModal
+          isOpen={isPageListOpen}
+          onNewPage={handleNewPage}
+          onPageSelect={handlePageSelect}
+        />
       </Editor>
-      <PageListModal
-        isOpen={isPageListOpen}
-        onNewPage={handleNewPage}
-        onPageSelect={handlePageSelect}
-      />
     </>
   );
 }
