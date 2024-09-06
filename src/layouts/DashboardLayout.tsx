@@ -7,6 +7,7 @@ import {
   Avatar,
   Breadcrumb,
   MenuProps,
+  ConfigProvider,
 } from "antd";
 import {
   MenuUnfoldOutlined,
@@ -24,6 +25,7 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import { Logo } from "@/components/editor/Logo";
+import { gcbTheme } from "@/themes";
 
 const { Sider, Header, Content } = Layout;
 
@@ -119,111 +121,119 @@ export const DashboardLayout = () => {
     });
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        theme="light"
-        width={250}
-      >
-        <div
-          className="logo"
-          style={{ padding: 16, background: "#FFFFFF", marginBottom: 16 }}
-        >
-          <Logo width={collapsed ? 40 : 80} height={collapsed ? 40 : 80} />
-        </div>
-        <Dropdown
-          menu={{
-            items: moduleMenuItems,
-            onClick: ({ key }) => handleModuleChange(key),
-          }}
-          placement="bottomLeft"
-        >
-          <Button style={{ width: "90%", margin: "0 5% 16px 5%" }}>
-            {selectedModule.label}
-          </Button>
-        </Dropdown>
-        <Menu
+    <ConfigProvider theme={gcbTheme}>
+      <Layout style={{ minHeight: "100vh" }}>
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
           theme="light"
-          mode="inline"
-          selectedKeys={[location.pathname]}
-          items={selectedModule.children}
-          onClick={({ key }) => {
-            const item = selectedModule.children.find(
-              (item) => item.key === key
-            );
-            if (item) {
-              navigate(item.path);
-            }
-          }}
-        />
-      </Sider>
-      <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: "#FFFFFF",
-            borderBottom: "1px solid #f0f0f0",
-          }}
+          width={250}
         >
           <div
+            className="logo"
+            style={{ padding: 16, background: "#FFFFFF", marginBottom: 16 }}
+          >
+            <Logo width={collapsed ? 40 : 80} height={collapsed ? 40 : 80} />
+          </div>
+          <Dropdown
+            menu={{
+              items: moduleMenuItems,
+              onClick: ({ key }) => handleModuleChange(key),
+            }}
+            placement="bottomLeft"
+          >
+            <Button style={{ width: "90%", margin: "0 5% 16px 5%" }}>
+              {selectedModule.label}
+            </Button>
+          </Dropdown>
+          <Menu
+            theme="light"
+            mode="inline"
+            selectedKeys={[location.pathname]}
+            items={selectedModule.children}
+            onClick={({ key }) => {
+              const item = selectedModule.children.find(
+                (item) => item.key === key
+              );
+              if (item) {
+                navigate(item.path);
+              }
+            }}
+          />
+        </Sider>
+        <Layout>
+          <Header
             style={{
-              display: "flex",
-              alignItems: "center",
-              height: "100%",
-              justifyContent: "space-between",
+              padding: 0,
+              background: "#FFFFFF",
+              borderBottom: "1px solid #f0f0f0",
             }}
           >
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: "16px",
-                width: 64,
-                height: 64,
-                color: "#0033C6",
-              }}
-            />
             <div
-              style={{ display: "flex", alignItems: "center", marginRight: 16 }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                height: "100%",
+                justifyContent: "space-between",
+              }}
             >
-              <Badge count={5} style={{ marginRight: 24 }}>
-                <Button
-                  type="text"
-                  icon={
-                    <BellOutlined style={{ fontSize: 20, color: "#0033C6" }} />
-                  }
-                />
-              </Badge>
-              <Dropdown overlay={userMenu} placement="bottomRight">
-                <Button
-                  type="text"
-                  icon={
-                    <Avatar
-                      icon={<UserOutlined />}
-                      style={{ backgroundColor: "#0033C6" }}
-                    />
-                  }
-                  style={{ marginLeft: 16 }}
-                />
-              </Dropdown>
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+                style={{
+                  fontSize: "16px",
+                  width: 64,
+                  height: 64,
+                  color: "#0033C6",
+                }}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginRight: 16,
+                }}
+              >
+                <Badge count={5} style={{ marginRight: 24 }}>
+                  <Button
+                    type="text"
+                    icon={
+                      <BellOutlined
+                        style={{ fontSize: 20, color: "#0033C6" }}
+                      />
+                    }
+                  />
+                </Badge>
+                <Dropdown overlay={userMenu} placement="bottomRight">
+                  <Button
+                    type="text"
+                    icon={
+                      <Avatar
+                        icon={<UserOutlined />}
+                        style={{ backgroundColor: "#0033C6" }}
+                      />
+                    }
+                    style={{ marginLeft: 16 }}
+                  />
+                </Dropdown>
+              </div>
             </div>
-          </div>
-        </Header>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-            background: "#FFFFFF",
-          }}
-        >
-          <Breadcrumb items={breadcrumbItems} style={{ marginBottom: 16 }} />
-          <Outlet />
-        </Content>
+          </Header>
+          <Content
+            style={{
+              margin: "24px 16px",
+              padding: 24,
+              minHeight: 280,
+              background: "#FFFFFF",
+            }}
+          >
+            <Breadcrumb items={breadcrumbItems} style={{ marginBottom: 16 }} />
+            <Outlet />
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </ConfigProvider>
   );
 };
