@@ -8,22 +8,17 @@ import { useState, useEffect } from "react";
 import { PageListModal } from "@/components/editor/PageListModal";
 
 function Builder() {
-  const [enabled, setEnabled] = useState(false);
   const [isPageListOpen, setIsPageListOpen] = useState(true);
 
   useEffect(() => {
-    // Abrir o modal de lista de páginas ao iniciar
     setIsPageListOpen(true);
   }, []);
 
   const handleNewPage = () => {
-    setEnabled(true);
     setIsPageListOpen(false);
   };
 
   const handlePageSelect = (pageId: string) => {
-    // Aqui você pode carregar o estado da página selecionada
-    setEnabled(true);
     setIsPageListOpen(false);
   };
 

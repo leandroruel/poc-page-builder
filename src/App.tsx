@@ -1,9 +1,12 @@
 import "./App.css";
+import { DashboardLayout } from "./layouts/DashboardLayout";
 
 function App() {
   return (
     <>
-     <h1>welcome to the page creator</h1>
+     <DashboardLayout>
+        <h1>welcome to the page creator</h1>
+     </DashboardLayout>
     </>
   );
 }
