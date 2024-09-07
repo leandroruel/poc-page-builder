@@ -51,7 +51,7 @@ export default function PropertiesSidebar() {
           )}
         </Space>
       </div>
-      <div>
+      <div style={{overflowY: 'scroll', scrollbarWidth: 'none'}}>
         {isEnabled &&
           selected &&
           selected.settings &&
