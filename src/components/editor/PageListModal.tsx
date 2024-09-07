@@ -1,6 +1,9 @@
 import React, { Suspense } from "react";
-import { Modal, Button, Card, Skeleton } from "antd";
+import { Modal, Button, Card, Skeleton, ConfigProvider } from "antd";
 import { usePageList } from "@/hooks/usePageList";
+import { editorTheme } from "./theme";
+import { useEditor } from "@craftjs/core";
+import lz from "lzutf8";
 
 const PageCard = React.lazy(() => import("./PageCard"));
 
@@ -16,32 +19,61 @@ export const PageListModal: React.FC<PageListModalProps> = ({
   onPageSelect,
 }) => {
   const { pages, isLoading } = usePageList();
+  const { actions } = useEditor((state) => ({
+    enabled: state.options.enabled,
+  }));
+
+  const handleLoadPage = (id: string) => {
+    const pageToLoad = pages.find((page) => page.id === id);
+    if (pageToLoad && pageToLoad.state) {
+      try {
+        const decompressedState = lz.decompress(
+          lz.decodeBase64(pageToLoad.state)
+        );
+
+        // Verificar se o JSON é válido
+        JSON.parse(decompressedState);
+
+        actions.deserialize(decompressedState);
+        onPageSelect(id);
+      } catch (error) {
+        console.error("Erro ao carregar a página:", error);
+      }
+    } else {
+      console.warn("Página não encontrada ou estado vazio");
+      alert(
+        "Não foi possível carregar a página. Estado vazio ou página não encontrada."
+      );
+    }
+  };
 
   return (
-    <Modal
-      title="Páginas Criadas"
-      open={isOpen}
-      closable={false}
-      maskClosable={false}
-      footer={[
-        <Button key="new" type="primary" onClick={onNewPage}>
-          Criar Nova Página
-        </Button>,
-      ]}
-      width={1200}
-      style={{ top: 20 }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "16px",
-          justifyContent: "start",
-          height: "100%",
-        }}
+    <ConfigProvider theme={editorTheme}>
+      <Modal
+        title="Páginas Criadas"
+        open={isOpen}
+        closable={false}
+        maskClosable={false}
+        footer={[
+          <Button key="new" type="primary" onClick={onNewPage}>
+            Criar Nova Página
+          </Button>,
+        ]}
+        width={1200}
+        styles={{ body: { height: 400 } }}
+        style={{ top: 20 }}
       >
-        {isLoading
-          ? Array(6)
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "16px",
+            justifyContent: "start",
+            height: "100%",
+          }}
+        >
+          {isLoading &&
+            Array(6)
               .fill(null)
               .map((_, index) => (
                 <Card
@@ -53,9 +85,12 @@ export const PageListModal: React.FC<PageListModalProps> = ({
                       active
                     />
                   }
-                ></Card>
-              ))
-          : pages.map((page: any) => (
+                />
+              ))}
+
+          {!isLoading &&
+            Boolean(pages.length) &&
+            pages.map((page: any) => (
               <Suspense
                 key={page.id}
                 fallback={
@@ -72,10 +107,14 @@ export const PageListModal: React.FC<PageListModalProps> = ({
                   </Card>
                 }
               >
-                <PageCard page={page} onSelect={() => onPageSelect(page.id)} />
+                <PageCard
+                  page={page}
+                  onSelect={() => handleLoadPage(page.id)}
+                />
               </Suspense>
             ))}
-      </div>
-    </Modal>
+        </div>
+      </Modal>
+    </ConfigProvider>
   );
 };

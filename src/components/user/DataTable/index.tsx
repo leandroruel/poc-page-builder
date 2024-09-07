@@ -30,7 +30,7 @@ export const DataTable = ({
     Record<string, FilterValue | null>
   >({});
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({});
-  const [searchText, setSearchText] = useState("");
+  const [, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
 
   const getTableData = () => {
@@ -114,6 +114,7 @@ export const DataTable = ({
             sorter: (a, b) => a.name.length - b.name.length,
             sortOrder:
               sortedInfo.columnKey === "name" ? sortedInfo.order : null,
+            filteredValue: filteredInfo.name || null,
             ...getColumnSearchProps("name"),
           },
           {
@@ -122,11 +123,13 @@ export const DataTable = ({
             key: "age",
             sorter: (a, b) => a.age - b.age,
             sortOrder: sortedInfo.columnKey === "age" ? sortedInfo.order : null,
+            filteredValue: filteredInfo.age || null,
           },
           {
             title: "Address",
             dataIndex: "address",
             key: "address",
+            filteredValue: filteredInfo.address || null,
             ...getColumnSearchProps("address"),
           },
           {
@@ -137,6 +140,7 @@ export const DataTable = ({
               new Date(a.date).getTime() - new Date(b.date).getTime(),
             sortOrder:
               sortedInfo.columnKey === "date" ? sortedInfo.order : null,
+            filteredValue: filteredInfo.date || null,
           },
           {
             title: "Status",
@@ -196,7 +200,7 @@ export const DataTable = ({
   ];
 
   const handleChange: TableProps<DataType>["onChange"] = (
-    pagination,
+    _pagination,
     filters,
     sorter
   ) => {

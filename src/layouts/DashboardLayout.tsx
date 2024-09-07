@@ -8,6 +8,8 @@ import {
   Breadcrumb,
   MenuProps,
   ConfigProvider,
+  Space,
+  Typography,
 } from "antd";
 import {
   MenuUnfoldOutlined,
@@ -16,6 +18,7 @@ import {
   UserOutlined,
   SettingOutlined,
   LogoutOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -28,6 +31,7 @@ import { Logo } from "@/components/editor/Logo";
 import { gcbTheme } from "@/themes";
 
 const { Sider, Header, Content } = Layout;
+const { Text } = Typography;
 
 const modules = [
   {
@@ -143,8 +147,17 @@ export const DashboardLayout = () => {
             }}
             placement="bottomLeft"
           >
-            <Button style={{ width: "90%", margin: "0 5% 16px 5%" }}>
-              {selectedModule.label}
+            <Button
+              style={{
+                width: "90%",
+                margin: "0 5% 16px 5%",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span>{selectedModule.label}</span>
+              <DownOutlined />
             </Button>
           </Dropdown>
           <Menu

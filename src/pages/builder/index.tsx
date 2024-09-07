@@ -1,11 +1,12 @@
 import { Editor, Element } from "@craftjs/core";
 import "@/App.css";
-import { Text, Row, Col, DataTable } from "@/components/user";
+import { Text, Row, Col, DataTable, Page } from "@/components/user";
 import { Viewport } from "@/components/editor/Viewport";
 import { RenderNode } from "@/components/editor/RenderNode";
-import Canvas from "@/components/editor/Canvas";
 import { useState, useEffect } from "react";
 import { PageListModal } from "@/components/editor/PageListModal";
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { FloatButton } from "antd";
 
 function Builder() {
   const [isPageListOpen, setIsPageListOpen] = useState(true);
@@ -18,14 +19,14 @@ function Builder() {
     setIsPageListOpen(false);
   };
 
-  const handlePageSelect = (pageId: string) => {
+  const handleClosePageList = () => {
     setIsPageListOpen(false);
   };
 
   return (
     <>
       <Editor
-        resolver={{ Text, Row, Col, Element, Canvas, DataTable }}
+        resolver={{ Text, Row, Col, Element, Page, DataTable }}
         onRender={RenderNode}
         enabled={false}
       >
@@ -33,9 +34,10 @@ function Builder() {
         <PageListModal
           isOpen={isPageListOpen}
           onNewPage={handleNewPage}
-          onPageSelect={handlePageSelect}
+          onPageSelect={handleClosePageList}
         />
       </Editor>
+      <FloatButton icon={<QuestionCircleOutlined />} type="primary" style={{ insetInlineEnd: 30 }} />
     </>
   );
 }

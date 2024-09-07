@@ -1,4 +1,6 @@
-export const editorTheme = {
+import { ThemeConfig } from "antd";
+
+export const editorTheme: ThemeConfig = {
   components: {
     Menu: {
       colorItemBg: "#434343",
@@ -17,8 +19,6 @@ export const editorTheme = {
       boxShadow: "none",
       primaryShadow: "none",
       defaultShadow: "none",
-      textShadow: "none",
-      ghostShadow: "none",
       dangerShadow: "none",
     },
     Table: {
@@ -30,6 +30,18 @@ export const editorTheme = {
       colorFillContent: "#ffffff",
       colorIcon: "#000000",
       colorIconHover: "#1890ff",
+    },
+    Modal: {
+      contentBg: "#434343",
+      colorText: "#ffffff",
+      colorTextHeading: "#ffffff",
+      colorBorder: "#595959",
+      colorBgBase: "#434343",
+      titleColor: "#ffffff",
+      headerBg: "#434343",
+      footerBg: "#434343",
+      colorBorderBg: "#595959",
+      colorFillContentHover: "#595959",
     },
   },
   token: {

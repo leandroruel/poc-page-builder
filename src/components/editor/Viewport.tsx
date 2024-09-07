@@ -5,7 +5,7 @@ import { Frame, Element, useEditor } from "@craftjs/core";
 import { useEffect, useState } from "react";
 import cx from "classnames";
 import PropertiesSidebar from "@/components/editor/PropertySidebar";
-import Canvas from "./Canvas";
+import { Page } from "@/components/user";
 import { defaultTheme, editorTheme } from "./theme";
 
 const { Content } = Layout;
@@ -83,7 +83,7 @@ export const Viewport = () => {
                 }}
               >
                 <Frame>
-                  <Element is={Canvas} canvas custom={{ displayName: "App" }} />
+                  <Element is={Page} canvas custom={{ displayName: "App" }} />
                 </Frame>
               </Flex>
             </Content>

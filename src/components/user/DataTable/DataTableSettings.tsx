@@ -25,6 +25,10 @@ export const DataTableSettings = () => {
   const {
     actions: { setProp },
     columns,
+    title,
+    showPagination,
+    pageSize,
+    dataSource,
   } = useNode((node) => ({
     title: node.data.props.title,
     showPagination: node.data.props.showPagination,
@@ -55,7 +59,7 @@ export const DataTableSettings = () => {
         <Space direction="vertical" style={{ width: "100%" }}>
           <Input
             placeholder="Título da tabela"
-            defaultValue="Data Table"
+            value={title}
             onChange={(e) =>
               setProp((props: any) => (props.title = e.target.value))
             }
@@ -64,7 +68,7 @@ export const DataTableSettings = () => {
             <Switch
               checkedChildren="Mostrar Paginação"
               unCheckedChildren="Ocultar Paginação"
-              defaultChecked
+              checked={showPagination}
               onChange={(checked) =>
                 setProp((props: any) => (props.showPagination = checked))
               }
@@ -72,14 +76,14 @@ export const DataTableSettings = () => {
           </div>
           <InputNumber
             addonBefore="Itens por Página"
-            defaultValue={10}
+            value={pageSize}
             onChange={(value: number | null) =>
               setProp((props: any) => (props.pageSize = value ?? 10))
             }
           />
           <Input
             addonBefore="Fonte de Dados"
-            defaultValue="Static"
+            value={dataSource}
             onChange={(e) =>
               setProp((props: any) => (props.dataSource = e.target.value))
             }

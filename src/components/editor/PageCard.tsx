@@ -15,7 +15,7 @@ interface PageCardProps {
 const PageCard: React.FC<PageCardProps> = ({ page, onSelect }) => (
   <Card
     hoverable
-    style={{ width: 250 }}
+    style={{ width: 250, height: 220, marginBottom: 10 }}
     cover={
       <img
         alt={page.title}
