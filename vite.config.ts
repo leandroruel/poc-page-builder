@@ -10,5 +10,15 @@ export default defineConfig({
     alias: {
       '@': path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'src')
     }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    },
+    modules: {
+      localsConvention: 'camelCaseOnly'
+    }
   }
 })

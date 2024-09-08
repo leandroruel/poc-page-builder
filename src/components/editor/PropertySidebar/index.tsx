@@ -2,6 +2,7 @@ import React from "react";
 import { Layout, Button, Typography, Space, Divider } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { useEditor } from "@craftjs/core";
+import styles from './PropertySidebar.module.scss'
 
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -29,7 +30,7 @@ export default function PropertiesSidebar() {
   });
 
   return (
-    <Sider width={300} theme="light" className="properties-sidebar">
+    <Sider width={300} theme="light" className={styles.propertiesSidebar}>
       <div style={{ padding: "16px" }}>
         <Space direction="vertical" style={{ width: "100%" }}>
           <Title level={5} style={{ margin: 0 }}>
@@ -51,7 +52,7 @@ export default function PropertiesSidebar() {
           )}
         </Space>
       </div>
-      <div style={{overflowY: 'scroll', scrollbarWidth: 'none'}}>
+      <div>
         {isEnabled &&
           selected &&
           selected.settings &&
