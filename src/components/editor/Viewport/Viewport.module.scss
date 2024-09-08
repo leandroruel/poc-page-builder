@@ -1,0 +1,25 @@
+.viewportLayout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.editorContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.scrollableContent {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  min-height: 100%;
+}

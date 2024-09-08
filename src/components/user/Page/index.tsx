@@ -13,7 +13,7 @@ const Page = ({ children }: { children?: React.ReactNode }) => {
         minWidth: "900px",
         maxWidth: "1200px",
         height: "100%",
-        minHeight: "300px",
+        minHeight: "1200px",
         backgroundColor: "#fff",
         padding: "20px",
         boxSizing: "border-box",

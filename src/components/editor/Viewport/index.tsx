@@ -1,12 +1,13 @@
 import { Layout, Flex, ConfigProvider } from "antd";
-import Header from "./Header";
-import Toolbar from "./Toolbar";
+import Header from "@/components/editor/Header";
+import Toolbar from "@/components/editor/Toolbar";
 import { Frame, Element, useEditor } from "@craftjs/core";
 import { useEffect, useState } from "react";
 import cx from "classnames";
 import PropertiesSidebar from "@/components/editor/PropertySidebar";
 import { Page } from "@/components/user";
-import { defaultTheme, editorTheme } from "./theme";
+import { defaultTheme, editorTheme } from "../theme";
+import styles from "./Viewport.module.scss";
 
 const { Content } = Layout;
 export const Viewport = () => {
@@ -47,20 +48,15 @@ export const Viewport = () => {
 
   return (
     <ConfigProvider theme={editorTheme}>
-      <Layout>
+      <Layout className={styles.viewportLayout}>
         <Header />
-        <Layout
-          style={{
-            display: "flex",
-            flexDirection: "row",
-          }}
-          className="page-container"
-        >
+        <Layout className={cx("page-container", styles.mainContent)}>
           <Toolbar />
           <ConfigProvider theme={defaultTheme}>
             <Content
               className={cx([
                 "craftjs-renderer",
+                styles.editorContent,
                 {
                   "bg-renderer-gray": enabled,
                 },
@@ -73,19 +69,21 @@ export const Viewport = () => {
                 )
               }
             >
-              <Flex
-                align="center"
-                justify="space-between"
-                style={{
-                  width: "100%",
-                  height: "calc(100vh - 50px)",
-                  padding: "10px",
-                }}
-              >
-                <Frame>
-                  <Element is={Page} canvas custom={{ displayName: "App" }} />
-                </Frame>
-              </Flex>
+              <div className={styles.scrollableContent}>
+                <Flex
+                  align="center"
+                  justify="space-between"
+                  style={{
+                    width: "100%",
+                    minHeight: "100%",
+                    padding: "10px",
+                  }}
+                >
+                  <Frame>
+                    <Element is={Page} canvas custom={{ displayName: "App" }} />
+                  </Frame>
+                </Flex>
+              </div>
             </Content>
           </ConfigProvider>
           <PropertiesSidebar />

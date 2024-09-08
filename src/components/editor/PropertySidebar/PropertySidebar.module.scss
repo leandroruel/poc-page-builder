@@ -1,4 +1,22 @@
 .propertiesSidebar {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebarHeader {
+  padding: 16px;
+  flex-shrink: 0;
+}
+
+.sidebarBody {
+  flex-grow: 1;
   overflow-y: auto;
   scrollbar-width: none;
+  padding-bottom: 100px;
 }
