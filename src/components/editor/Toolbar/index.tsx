@@ -98,7 +98,7 @@ const Toolbar = () => {
             onClick={() => setVisible(!visible)}
             style={{ color: "white" }}
           />
-          <div>
+          <div className={styles.toolBarMenuButtons}>
             <Tooltip title="Nova página" placement="right">
               <Button
                 type="link"
