@@ -8,6 +8,7 @@ import {
   Typography,
   Collapse,
   Space,
+  Checkbox,
 } from "antd";
 import { useState } from "react";
 import {
@@ -29,12 +30,14 @@ export const DataTableSettings = () => {
     showPagination,
     pageSize,
     dataSource,
+    actionColumns,
   } = useNode((node) => ({
     title: node.data.props.title,
     showPagination: node.data.props.showPagination,
     pageSize: node.data.props.pageSize,
     dataSource: node.data.props.dataSource,
     columns: node.data.props.columns,
+    actionColumns: node.data.props.actionColumns,
   }));
 
   const [newColumnTitle, setNewColumnTitle] = useState("");
@@ -53,8 +56,27 @@ export const DataTableSettings = () => {
     }
   };
 
+  const handleActionColumnChange = (action: string, checked: boolean) => {
+    setProp((props: any) => {
+      if (checked) {
+        props.actionColumns = [...props.actionColumns, action];
+      } else {
+        props.actionColumns = props.actionColumns.filter((a: string) => a !== action);
+      }
+      // If all actions are unchecked, ensure actionColumns is an empty array
+      if (props.actionColumns.length === 0) {
+        props.actionColumns = [];
+      }
+    });
+  };
+
+
   return (
-    <Collapse expandIconPosition="end" bordered={false} defaultActiveKey={["1"]}>
+    <Collapse
+      expandIconPosition="end"
+      bordered={false}
+      defaultActiveKey={["1"]}
+    >
       <Panel header="Básico" extra={<TableOutlined />} key="1">
         <Space direction="vertical" style={{ width: "100%" }}>
           <Input
@@ -115,6 +137,7 @@ export const DataTableSettings = () => {
             Adicionar Coluna
           </Button>
           <Title level={5}>Colunas Atuais</Title>
+
           <Menu mode="vertical" theme="light">
             {columns.map((column: any, index: number) => (
               <Menu.Item
@@ -143,6 +166,24 @@ export const DataTableSettings = () => {
               </Menu.Item>
             ))}
           </Menu>
+        </Space>
+      </Panel>
+      <Panel header="Colunas de Ação" extra={<SettingOutlined />} key="4">
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <Checkbox
+            checked={actionColumns.includes("edit")}
+            onChange={(e) => handleActionColumnChange("edit", e.target.checked)}
+          >
+            Adicionar botão de edição
+          </Checkbox>
+          <Checkbox
+            checked={actionColumns.includes("delete")}
+            onChange={(e) =>
+              handleActionColumnChange("delete", e.target.checked)
+            }
+          >
+            Adicionar botão de exclusão
+          </Checkbox>
         </Space>
       </Panel>
       <Panel header="Avançado" extra={<SettingOutlined />} key="3">

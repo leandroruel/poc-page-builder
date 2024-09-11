@@ -13,7 +13,7 @@ import {
   FileAddOutlined,
 } from "@ant-design/icons";
 import styles from "./Toolbar.module.css";
-import { DataTable, Row, Text } from "../../user";
+import { DataTable, GridOneColumn, Text } from "../../user";
 import { GridRow, Table, TextSolid } from "@/components/icons";
 
 const { Panel } = Collapse;
@@ -154,7 +154,7 @@ const Toolbar = () => {
             <ComponentItem
               icon={<GridRow width="20" height="20" color="#000" />}
               label="Grid 1 coluna"
-              component={<Row />}
+              component={<GridOneColumn />}
             />
           </Panel>
           <Panel header="Tabelas" key="3" extra={<TableOutlined />}>

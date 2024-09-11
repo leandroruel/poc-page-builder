@@ -1,6 +1,20 @@
 import { useState } from "react";
-import { Table, Input, Button, Space, DatePicker, Select, Flex } from "antd";
-import { SearchOutlined, FilterOutlined } from "@ant-design/icons";
+import {
+  Table,
+  Input,
+  Button,
+  Space,
+  DatePicker,
+  Select,
+  Flex,
+  Popconfirm,
+} from "antd";
+import {
+  SearchOutlined,
+  FilterOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import type { FilterValue, SorterResult } from "antd/es/table/interface";
 import { useNode } from "@craftjs/core";
@@ -21,6 +35,7 @@ const { RangePicker } = DatePicker;
 export const DataTable = ({
   data = [],
   columns = [],
+  actionColumns = [],
   title = "Data Table",
   showPagination = true,
   pageSize = 10,
@@ -103,58 +118,90 @@ export const DataTable = ({
       ),
   });
 
-  const tableColumns =
-    columns.length > 0
-      ? columns
-      : ([
-          {
-            title: "Name",
-            dataIndex: "name",
-            key: "name",
-            sorter: (a, b) => a.name.length - b.name.length,
-            sortOrder:
-              sortedInfo.columnKey === "name" ? sortedInfo.order : null,
-            filteredValue: filteredInfo.name || null,
-            ...getColumnSearchProps("name"),
-          },
-          {
-            title: "Age",
-            dataIndex: "age",
-            key: "age",
-            sorter: (a, b) => a.age - b.age,
-            sortOrder: sortedInfo.columnKey === "age" ? sortedInfo.order : null,
-            filteredValue: filteredInfo.age || null,
-          },
-          {
-            title: "Address",
-            dataIndex: "address",
-            key: "address",
-            filteredValue: filteredInfo.address || null,
-            ...getColumnSearchProps("address"),
-          },
-          {
-            title: "Date",
-            dataIndex: "date",
-            key: "date",
-            sorter: (a, b) =>
-              new Date(a.date).getTime() - new Date(b.date).getTime(),
-            sortOrder:
-              sortedInfo.columnKey === "date" ? sortedInfo.order : null,
-            filteredValue: filteredInfo.date || null,
-          },
-          {
-            title: "Status",
-            dataIndex: "status",
-            key: "status",
-            filters: [
-              { text: "Active", value: "Active" },
-              { text: "Inactive", value: "Inactive" },
-            ],
-            filteredValue: filteredInfo.status || null,
-            onFilter: (value, record) =>
-              record.status.includes(value as string),
-          },
-        ] as ColumnsType<DataType>);
+  const handleEdit = (record: DataType) => {
+    console.log("Edit record", record);
+    // Implement edit functionality
+  };
+
+  const handleDelete = (record: DataType) => {
+    console.log("Delete record", record);
+    // Implement delete functionality
+  };
+
+  const getActionColumn = (actions: string[]) => ({
+    title: "Actions",
+    key: "actions",
+    render: (_: any, record: DataType) => (
+      <Space size="middle">
+        {actions.includes("edit") && (
+          <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>
+            Edit
+          </Button>
+        )}
+        {actions.includes("delete") && (
+          <Popconfirm
+            title="Sure to delete?"
+            onConfirm={() => handleDelete(record)}
+          >
+            <Button icon={<DeleteOutlined />} danger>
+              Delete
+            </Button>
+          </Popconfirm>
+        )}
+      </Space>
+    ),
+  });
+
+  const mockedTableData = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      sorter: (a, b) => a.name.length - b.name.length,
+      sortOrder: sortedInfo.columnKey === "name" ? sortedInfo.order : null,
+      filteredValue: filteredInfo.name || null,
+      ...getColumnSearchProps("name"),
+    },
+    {
+      title: "Age",
+      dataIndex: "age",
+      key: "age",
+      sorter: (a, b) => a.age - b.age,
+      sortOrder: sortedInfo.columnKey === "age" ? sortedInfo.order : null,
+      filteredValue: filteredInfo.age || null,
+    },
+    {
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+      filteredValue: filteredInfo.address || null,
+      ...getColumnSearchProps("address"),
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+      sortOrder: sortedInfo.columnKey === "date" ? sortedInfo.order : null,
+      filteredValue: filteredInfo.date || null,
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      filters: [
+        { text: "Active", value: "Active" },
+        { text: "Inactive", value: "Inactive" },
+      ],
+      filteredValue: filteredInfo.status || null,
+      onFilter: (value, record) => record.status.includes(value as string),
+    },
+  ] as ColumnsType<DataType>;
+
+  const tableColumns = [
+    ...(columns.length > 0 ? columns : mockedTableData),
+    ...(actionColumns.length > 0 ? [getActionColumn(actionColumns)] : []),
+  ];
 
   const {
     connectors: { connect, drag },
@@ -271,7 +318,11 @@ export const DataTable = ({
                 }
               : false
           }
-          className="shadow-sm rounded-md overflow-hidden"
+          style={{
+            filter: "drop-shadow(0 1px 1px rgb(0 0 0 / 0.05))",
+            borderRadius: 5,
+            overflow: "hidden",
+          }}
         />
       </div>
     </div>
@@ -282,6 +333,7 @@ DataTable.craft = {
   props: {
     data: [],
     columns: [],
+    actionColumns: [],
     title: "Data Table",
     showPagination: true,
     pageSize: 10,
