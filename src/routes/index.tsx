@@ -1,17 +1,38 @@
-import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import { MsalAuthenticationTemplate } from "@azure/msal-react";
+import { InteractionType } from "@azure/msal-browser";
 import { DashboardLayout } from "../layouts/DashboardLayout";
 import NotFound from "../pages/NotFound";
 import Builder from "../pages/builder";
+import ErrorBoundary from "@/pages/ErrorBoundary";
+import { loginRequest } from "../../authConfig";
+import { SSOLogin } from "@/components/admin/SSOLogin";
+
+const AuthenticatedRoute = ({ children }: { children: React.ReactNode }) => (
+  <MsalAuthenticationTemplate
+    interactionType={InteractionType.Redirect}
+    authenticationRequest={loginRequest}
+  >
+    {children}
+  </MsalAuthenticationTemplate>
+);
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Navigate to="/login" />,
+  },
+  {
+    path: "/login",
+    element: <SSOLogin />,
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <AuthenticatedRoute>
+        <DashboardLayout />
+      </AuthenticatedRoute>
+    ),
     children: [
       {
         path: "overview",
@@ -25,7 +46,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/analytics",
-    element: <DashboardLayout />,
+    element: (
+      <AuthenticatedRoute>
+        <DashboardLayout />
+      </AuthenticatedRoute>
+    ),
     children: [
       {
         path: "sales",
@@ -39,7 +64,12 @@ export const router = createBrowserRouter([
   },
   {
     path: "/builder",
-    element: <Builder />,
+    element: (
+      <AuthenticatedRoute>
+        <Builder />
+      </AuthenticatedRoute>
+    ),
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "*",
