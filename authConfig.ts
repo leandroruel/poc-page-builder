@@ -22,26 +22,3 @@ export const graphConfig = {
   graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
 };
 
-console.log(msalConfig, import.meta.env)
-// MSAL1.0 code
-// import { Configuration, PopupRequest } from "@azure/msal-browser";
-
-// // Config object to be passed to Msal on creation
-// export const msalConfig: Configuration = {
-//   auth: {
-//     clientId: import.meta.env.REACT_APP_CLIENT_ID,
-//     authority: import.meta.env.REACT_APP_AUTHORITY,
-//     redirectUri: import.meta.env.REACT_APP_REDIRECT_URI,
-//     postLogoutRedirectUri: import.meta.env.REACT_APP_POST_LOGOUT_REDIRECT_URI,
-//   },
-// } as any;
-
-// // Add here scopes for id token to be used at MS Identity Platform endpoints.
-// export const loginRequest: PopupRequest = {
-//   scopes: ["email", "profile", "User.Read"],
-// };
-
-// // Adicione aqui os endpoints para os serviços da API do MS Graph que você deseja usar.
-// export const graphConfig = {
-//   graphMeEndpoint: import.meta.env.REACT_APP_GRAPH_ME_ENDPOINT,
-// };
