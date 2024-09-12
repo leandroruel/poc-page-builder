@@ -1,8 +1,16 @@
-import "./App.css";
-import { DashboardLayout } from "./layouts/DashboardLayout";
+import React from "react";
+import { PublicClientApplication } from "@azure/msal-browser";
+import { MsalProvider } from "@azure/msal-react";
+import { msalConfig } from "../authConfig";
 
-function App() {
-  return <DashboardLayout />;
-}
+const msalInstance = new PublicClientApplication(msalConfig);
+
+const App: React.FC<{children: React.ReactNode}> = ({ children }) => {
+  return (
+    <MsalProvider instance={msalInstance}>
+      {children}
+    </MsalProvider>
+  );
+};
 
 export default App;
