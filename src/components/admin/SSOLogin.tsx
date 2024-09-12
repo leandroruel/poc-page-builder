@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMsal } from '@azure/msal-react'
 import { loginRequest } from '../../../authConfig'
 import { useNavigate } from "react-router-dom";
+import { Logo } from "../editor/Logo";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -52,10 +53,8 @@ export const SSOLogin = () => {
       >
         <Card style={{ width: "100%", maxWidth: 400 }}>
           <div style={{ textAlign: "center", marginBottom: 24 }}>
-            <WindowsOutlined
-              style={{ fontSize: 48, color: "#0078d4", marginBottom: 16 }}
-            />
-            <Title level={2}>Login with Microsoft</Title>
+            <Logo width={40} height={40} />
+            <Title level={2}>Bem vindo de volta</Title>
           </div>
           <Button
             type="primary"
@@ -65,7 +64,7 @@ export const SSOLogin = () => {
             onClick={handleLogin}
             loading={loading}
           >
-            {loading ? "Logging in..." : "Sign in with Microsoft"}
+            {loading ? "Logging in..." : "Login com Microsoft"}
           </Button>
         </Card>
       </Content>

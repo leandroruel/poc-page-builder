@@ -20,10 +20,10 @@ const AuthenticatedRoute = ({ children }: { children: React.ReactNode }) => (
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navigate to="/login" />,
+    element: <Navigate to="/auth" />,
   },
   {
-    path: "/login",
+    path: "/auth",
     element: <SSOLogin />,
   },
   {
