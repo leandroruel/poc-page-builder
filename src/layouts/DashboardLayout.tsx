@@ -28,6 +28,7 @@ import { useState } from "react";
 import { Logo } from "@/components/editor/Logo";
 import { gcbTheme } from "@/themes";
 import { useMsal } from "@azure/msal-react";
+import { useAccountInfo } from "@/hooks/useAccountInfo";
 
 const { Sider, Header, Content } = Layout;
 
@@ -78,6 +79,7 @@ export const DashboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { instance } = useMsal();
+  const { accountInfo } = useAccountInfo();
 
   const userMenu = [
     {
@@ -227,12 +229,13 @@ export const DashboardLayout = () => {
                     type="text"
                     icon={
                       <Avatar
-                        icon={<UserOutlined />}
+                        src={accountInfo?.photoUrl}
+                        icon={!accountInfo?.photoUrl && <UserOutlined />}
                         style={{ backgroundColor: "#0033C6" }}
                       />
                     }
                     style={{ marginLeft: 16 }}
-                  />
+                  >{accountInfo ? accountInfo.username : ''}</Button> 
                 </Dropdown>
               </div>
             </div>
