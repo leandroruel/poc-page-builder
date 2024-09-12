@@ -44,5 +44,3 @@ export const loginRequest: PopupRequest = {
 export const graphConfig = {
   graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
 };
-
-console.log(msalConfig)
