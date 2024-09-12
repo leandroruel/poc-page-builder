@@ -8,8 +8,6 @@ import {
   Breadcrumb,
   MenuProps,
   ConfigProvider,
-  Space,
-  Typography,
 } from "antd";
 import {
   MenuUnfoldOutlined,
@@ -29,9 +27,9 @@ import {
 import { useState } from "react";
 import { Logo } from "@/components/editor/Logo";
 import { gcbTheme } from "@/themes";
+import { useMsal } from "@azure/msal-react";
 
 const { Sider, Header, Content } = Layout;
-const { Text } = Typography;
 
 const modules = [
   {
@@ -79,17 +77,22 @@ export const DashboardLayout = () => {
   const [selectedModule, setSelectedModule] = useState(modules[0]);
   const navigate = useNavigate();
   const location = useLocation();
+  const { instance } = useMsal();
 
-  const userMenu = (
-    <Menu>
-      <Menu.Item key="1" icon={<SettingOutlined />}>
-        Settings
-      </Menu.Item>
-      <Menu.Item key="2" icon={<LogoutOutlined />}>
-        Logout
-      </Menu.Item>
-    </Menu>
-  );
+  const userMenu = [
+    {
+      key: "1",
+      label: "Configurações",
+      icon: <SettingOutlined />,
+      onClick: () => {},
+    },
+    {
+      key: "2",
+      label: "Logout",
+      icon: <LogoutOutlined />,
+      onClick: () => instance.logout(),
+    },
+  ];
 
   const moduleMenuItems: MenuProps["items"] = modules.map((module) => ({
     key: module.key,
@@ -219,7 +222,7 @@ export const DashboardLayout = () => {
                     }
                   />
                 </Badge>
-                <Dropdown overlay={userMenu} placement="bottomRight">
+                <Dropdown menu={{ items: userMenu }} placement="bottomRight">
                   <Button
                     type="text"
                     icon={

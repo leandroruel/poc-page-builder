@@ -7,6 +7,7 @@ import Builder from "../pages/builder";
 import ErrorBoundary from "@/pages/ErrorBoundary";
 import { loginRequest } from "../../authConfig";
 import { SSOLogin } from "@/components/admin/SSOLogin";
+import LoggedOut from "@/components/admin/LoggedOut";
 
 const AuthenticatedRoute = ({ children }: { children: React.ReactNode }) => (
   <MsalAuthenticationTemplate
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
   {
     path: "/auth",
     element: <SSOLogin />,
+  },
+  {
+    path: '/loggedout',
+    element: <LoggedOut />
   },
   {
     path: "/dashboard",
