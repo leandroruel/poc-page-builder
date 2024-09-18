@@ -24,14 +24,16 @@ import {
   BarChartOutlined,
   LineChartOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Logo } from "@/components/editor/Logo";
 import { gcbTheme } from "@/themes";
 import { useMsal } from "@azure/msal-react";
 import { useAccountInfo } from "@/hooks/useAccountInfo";
+import { useModule } from "@/hooks/useModule";
 
 const { Sider, Header, Content } = Layout;
 
+// dados mockados
 const modules = [
   {
     key: "/",
@@ -80,6 +82,27 @@ export const DashboardLayout = () => {
   const location = useLocation();
   const { instance } = useMsal();
   const { accountInfo } = useAccountInfo();
+  const idToken = accountInfo?.idToken;
+  const {data, isLoading, error} = useModule(idToken || '');
+
+  /**
+   * Use o data onde vem os modulos e menus
+   * para construir o menu do sistema, voce pode usar
+   * a variavel isLoading para mostrar um eskeleton ou
+   * um spinner de carregamento de dados, e use o 'error'
+   * para mostrar uma mensagem de erro amigavel na tela
+   * quando ocorrer um problema no carregamento do menu.
+   *
+   */
+  useEffect(() => {
+    if (data && !isLoading) {
+      console.log(data)
+    }
+
+    if (error) {
+      console.error(error);
+    }
+  }, [data, isLoading, error]);
 
   const userMenu = [
     {
@@ -151,6 +174,7 @@ export const DashboardLayout = () => {
               onClick: ({ key }) => handleModuleChange(key),
             }}
             placement="bottomLeft"
+            
           >
             <Button
               style={{
